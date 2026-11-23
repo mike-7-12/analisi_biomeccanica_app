@@ -10,7 +10,7 @@ oggi = datetime.now().strftime("%Y-%m-%d")
 
 st.set_page_config(page_title='Mobility Analyzer', layout='centered', page_icon=":material/self_improvement:", initial_sidebar_state="collapsed")
 
-# with st.sidebar:
+with st.sidebar:
 #     def get_internal_ip():
 #         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
 #             try:
@@ -26,12 +26,12 @@ st.set_page_config(page_title='Mobility Analyzer', layout='centered', page_icon=
 
 #     st.write(f"Network URL: {network_url}")
 
-#     # Generate QR code
-#     qr = qrcode.make(network_url)
-#     buf = BytesIO()
-#     qr.save(buf, format="PNG")
-#     buf.seek(0)
-#     st.image(buf, caption="Scan to open on your phone")
+    # Generate QR code
+    qr = qrcode.make("https://mobility-analyzer.streamlit.app/")
+    buf = BytesIO()
+    qr.save(buf, format="PNG")
+    buf.seek(0)
+    st.image(buf, caption="Scan to open on your phone")
 
 if 'home' not in st.session_state:
     st.session_state.home = True
@@ -86,6 +86,7 @@ if st.session_state.elaborate:
     name = st.session_state.name
     exc = st.session_state.exc
     ang_dict = st.session_state.ang_dict
+        
     if acq.type[:5] == "image":
         # 1. Dai byte del file a un array 1D di uint8
         data = np.frombuffer(st.session_state.acq.getvalue(), dtype=np.uint8)
@@ -117,7 +118,8 @@ if st.session_state.elaborate:
         col31, col32 = st.columns(2)
         with col31:
             st.download_button("Salva il video e gli angoli articolari", data=annotated, mime="video/mp4", file_name=f"{name}_{oggi}_{exc}.mp4", on_click="ignore", type="primary", icon=":material/download:", width="stretch")
-
+    else:
+        reset()
 
 
     with col32:
