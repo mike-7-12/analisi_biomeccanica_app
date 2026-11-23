@@ -1,0 +1,15 @@
+# ambiente virtuale (cambia il nome se il tuo è diverso)
+.biofunz_app_venv/
+biofunz_app_venv/
+
+# cache di Python
+__pycache__/
+*.pyc
+
+# segreti e configurazioni locali
+.env
+.streamlit/secrets.toml
+
+# dati dei soggetti e materiale di prova: non vanno mai su GitHub
+*.mp4
+*.mov
