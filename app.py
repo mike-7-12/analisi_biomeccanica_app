@@ -39,8 +39,11 @@ if 'elaborate' not in st.session_state:
     st.session_state.elaborate = False
 
 def run_elab():
-    st.session_state.home = False
-    st.session_state.elaborate = True
+    if st.session_state.acq is not None:
+        st.session_state.home = False
+        st.session_state.elaborate = True
+        
+    
 def reset():
     st.session_state.home = True
     for k in list(st.session_state.keys()):
