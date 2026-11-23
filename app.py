@@ -86,7 +86,10 @@ if st.session_state.elaborate:
     name = st.session_state.name
     exc = st.session_state.exc
     ang_dict = st.session_state.ang_dict
-        
+
+    if acq is None:
+        st.toast("Carica un file valido")
+        reset()    
     if acq.type[:5] == "image":
         # 1. Dai byte del file a un array 1D di uint8
         data = np.frombuffer(st.session_state.acq.getvalue(), dtype=np.uint8)
@@ -95,6 +98,7 @@ if st.session_state.elaborate:
         img = cv2.imdecode(data, cv2.IMREAD_COLOR)
         if img is None:
             st.error("Impossibile leggere l'immagine: formato non supportato o file corrotto.")
+            reset()
 
         annotated, a = u.run_img_acquisition(img, 1, ang_dict, name, exc)
         st.toast("Elaborazione completata")
@@ -118,8 +122,7 @@ if st.session_state.elaborate:
         col31, col32 = st.columns(2)
         with col31:
             st.download_button("Salva il video e gli angoli articolari", data=annotated, mime="video/mp4", file_name=f"{name}_{oggi}_{exc}.mp4", on_click="ignore", type="primary", icon=":material/download:", width="stretch")
-    else:
-        reset()
+
 
 
     with col32:
