@@ -60,7 +60,7 @@ if st.session_state.home:
             if not st.toggle("Scatta una foto"):
                 st.session_state['acq'] = st.file_uploader('Clicca per selezionare un file', type=['image', 'video'], accept_multiple_files=False)
             else:
-                st.session_state['acq'] = st.camera_input("Inquadra e scatta")
+                st.session_state['acq'] = st.camera_input("Inquadra e scatta", resolution="1080p")
         with col12:
             st.session_state['name'] = st.text_input("Inserisci il nome del soggetto", placeholder="Soggetto1")
             st.session_state['exc'] = st.text_input("Inserisci il nome dell'esercizio", placeholder="Esercizio1")
