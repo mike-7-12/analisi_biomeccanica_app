@@ -106,10 +106,10 @@ def pad_to_table(img, wt, ht, color=(0, 0, 0)):
     return cv2.copyMakeBorder(img, 0, bottom, 0, right,
                                 borderType=cv2.BORDER_CONSTANT, value=color)
 
-def run_img_acquisition(img, save_coords_bool, angl, nome, esercizio):
+def run_img_acquisition(img, save_coords_bool, angl, nome, esercizio, model):
 
     options = PoseLandmarkerOptions(
-    base_options=BaseOptions(model_asset_path=str(model_full_path)),
+    base_options=BaseOptions(model_asset_path=str(model_full_path if model=="full" else model_lite_path)),
     running_mode=VisionRunningMode.IMAGE)
 
     a = angl.copy()
@@ -153,10 +153,10 @@ def run_img_acquisition(img, save_coords_bool, angl, nome, esercizio):
 
     return annotated_img, a
 
-def run_video_acquisition(vid, save_coords_bool, angl, nome, esercizio):
+def run_video_acquisition(vid, save_coords_bool, angl, nome, esercizio, model):
 
     options = PoseLandmarkerOptions(
-    base_options=BaseOptions(model_asset_path=str(model_full_path)),
+    base_options=BaseOptions(model_asset_path=str(model_full_path if model=="full" else model_lite_path)),
     running_mode=VisionRunningMode.VIDEO)
 
 

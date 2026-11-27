@@ -78,8 +78,10 @@ if st.session_state.home:
             r_knee = st.toggle('Angolo di ginocchio dx')
             r_shoul = st.toggle('Angolo di spalla dx')
 
-        st.session_state["ang_dict"] = {"gomito dx":r_elbow, "gomito sx":l_elbow, "anca dx":r_hip, "anca sx":l_hip, "ginocchio dx":r_knee, "ginocchio sx":l_knee, "spalla sx":l_shoul, "spalla_dx":r_shoul}
+        st.session_state["ang_dict"] = {"gomito dx":r_elbow, "gomito sx":l_elbow, "anca dx":r_hip, "anca sx":l_hip, "ginocchio dx":r_knee, "ginocchio sx":l_knee, "spalla sx":l_shoul, "spalla dx":r_shoul}
 
+    with st.container(horizontal_alignment="center"):
+        model = st.segmented_control("Modello:", ["lite", "full"], selection_mode="single", help="Scegli lite per maggior velocità e full per maggior precisione", default="lite")
     st.button("Avvia elaborazione", type="primary", icon=":material/hub:", width="stretch", on_click=run_elab)
 
 
@@ -103,7 +105,7 @@ if st.session_state.elaborate:
             st.error("Impossibile leggere l'immagine: formato non supportato o file corrotto.")
             reset()
 
-        annotated, a = u.run_img_acquisition(img, 1, ang_dict, name, exc)
+        annotated, a = u.run_img_acquisition(img, 1, ang_dict, name, exc, mod)
         st.toast("Elaborazione completata")
         with st.container(border=True):
             st.image((cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)))
@@ -115,7 +117,7 @@ if st.session_state.elaborate:
             st.download_button("Salva l'immagine e gli angoli articolari", data=u.array_to_image_bytes((cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB))), mime="image/png", file_name=f"{name}_{oggi}_{exc}.png", on_click="ignore", type="primary", icon=":material/download:", width="stretch")
 
     elif acq.type[:5] == "video":
-        annotated, coords, amax, amin = u.run_video_acquisition(acq, 1, ang_dict, name, exc)
+        annotated, coords, amax, amin = u.run_video_acquisition(acq, 1, ang_dict, name, exc, mod)
         st.toast("Elaborazione completata")
         with st.container(border=True):
             st.video(annotated, autoplay=True, loop=True)
