@@ -112,7 +112,7 @@ if st.session_state.elaborate:
             st.image((cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)))
             for j, ang in a.items():
                 if ang:
-                    st.write(f"Angolo di flessione di {j}: {ang}")
+                    st.metric(f"Angolo di flessione di {j}", value=f"{ang}°")
         col31, col32 = st.columns(2)
         with col31:
             st.download_button("Salva l'immagine e gli angoli articolari", data=u.array_to_image_bytes((cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB))), mime="image/png", file_name=f"{name}_{oggi}_{exc}.png", on_click="ignore", type="primary", icon=":material/download:", width="stretch")
@@ -124,7 +124,8 @@ if st.session_state.elaborate:
             st.video(annotated, autoplay=True, loop=True)
             for j, ang in amax.items():
                 if ang:
-                    st.write(f"Angolo massimo di flessione di {j}: {ang} - Angolo minimo di flessione di {j}: {amin[j]}")
+                    st.metric(f"Angolo massimo di flessione di {j}", value=f"{ang}°")
+                    st.metric(f"Angolo minimo di flessione di {j}",  value=f"{amin[j]}°")
         col31, col32 = st.columns(2)
         with col31:
             st.download_button("Salva il video e gli angoli articolari", data=annotated, mime="video/mp4", file_name=f"{name}_{oggi}_{exc}.mp4", on_click="ignore", type="primary", icon=":material/download:", width="stretch")
