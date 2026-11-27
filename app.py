@@ -81,7 +81,7 @@ if st.session_state.home:
         st.session_state["ang_dict"] = {"gomito dx":r_elbow, "gomito sx":l_elbow, "anca dx":r_hip, "anca sx":l_hip, "ginocchio dx":r_knee, "ginocchio sx":l_knee, "spalla sx":l_shoul, "spalla dx":r_shoul}
 
     with st.container(horizontal_alignment="center"):
-        model = st.segmented_control("Modello:", ["lite", "full"], selection_mode="single", help="Scegli lite per maggior velocità e full per maggior precisione", default="lite")
+        st.session_state["model"] = st.segmented_control("Modello:", ["lite", "full"], selection_mode="single", required=True, help="Scegli lite per maggior velocità e full per maggior precisione", default="lite")
     st.button("Avvia elaborazione", type="primary", icon=":material/hub:", width="stretch", on_click=run_elab)
 
 
@@ -91,8 +91,9 @@ if st.session_state.elaborate:
     name = st.session_state.name
     exc = st.session_state.exc
     ang_dict = st.session_state.ang_dict
+    model = st.session_state.model
 
-    if acq is None:
+    if acq is None or model is None:
         st.toast("Carica un file valido")
         reset()    
     if acq.type[:5] == "image":
